@@ -13,7 +13,6 @@ import {RepositoryDetailsComponent} from "./Components/repository-details/reposi
 import { RepositoryComponent } from './Components/repository/repository.component';
 import {BytesPipe} from "./Pipes/bytes.pipe";
 
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -22,13 +21,14 @@ import {BytesPipe} from "./Pipes/bytes.pipe";
     UserProfileComponent,
     RepositoryDetailsComponent,
     RepositoryComponent,
-    BytesPipe
+    BytesPipe,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+
   ],
   providers: [GithubAPIService],
   bootstrap: [AppComponent]

@@ -1,1 +1,62 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&family=Space+Mono:wght@400;700&display=swap');
+
 /* You can add global styles to this file, and also import other style files */
+body {
+  background: #22272e;
+  color: #adbac7;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.code-font {
+  font-family: 'Space Mono', monospace;
+}
+
+.font-bold {
+  font-weight: bold;
+}
+
+.gradient-text {
+  background: -webkit-linear-gradient(120deg, #bd34fe 30%, #ff3670);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+h1 {
+  font-size: 56px;
+}
+
+.text-gray {
+  color: #adbac7;
+}
+
+.text-small {
+  font-size: 18px;
+}
+
+.text-xs {
+  font-size: 14px;
+}
+
+.text-xxs {
+  font-size: 12px;
+}
+
+.text-capitalize {
+  text-transform: capitalize;
+}
+
+.text-darken {
+  color: #768390;
+}
+
+.small-border {
+  border: 1px solid #adbac7;
+}
+
+.custom-link {
+  color: #768390;
+
+  &:hover {
+    color: #adbac7;
+  }
+}

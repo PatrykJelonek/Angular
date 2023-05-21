@@ -1,9 +1,50 @@
-.search-container {
-  background: #22272e;
-  width: 100vw;
-  height: 100vh;
+.custom-input {
+  background: transparent;
+  color: #adbac7;
 
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  border: 1px solid #adbac7;
+
+  height: 50px;
+
+  font-family: 'Space Mono', monospace;
+  font-weight: normal;
+
+  &::placeholder {
+    color: #343a43;
+  }
+}
+
+.btn-added {
+  height: 50px;
+  width: 100px;
+
+  background: transparent;
+  color: #adbac7;
+  border: 1px solid #adbac7;
+
+  border-radius: 0 5px 5px 0;
+
+  font-family: 'Space Mono', monospace;
+  font-weight: bold;
+
+  transition: all 1s ease-in-out;
+
+  &:hover {
+    background: -webkit-linear-gradient(120deg, #bd34fe 30%, #ff3670);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}
+
+.custom-select {
+  max-width: 150px;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.custom-container {
+  height: 100vh;
+  width: 100vw;
 }

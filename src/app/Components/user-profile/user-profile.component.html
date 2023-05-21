@@ -1,14 +1,52 @@
-<div class="container">
+<div class="container mt-3">
   <div class="row">
-    <div class="col-md-6 offset-md-3">
-      <div [@fadeInOut]>
-        <h2>Profil użytkownika</h2>
-        <div class="card">
-          <img [src]="userProfile.avatar_url" class="card-img-top" alt="Avatar użytkownika">
-          <div class="card-body">
-            <h5 class="card-title">{{ userProfile.login }}</h5>
-            <p class="card-text">{{ userProfile.bio }}</p>
-            <a [href]="userProfile.html_url" target="_blank" class="btn btn-primary">Odwiedź profil</a>
+    <div class="col">
+      <a [routerLink]="['/']" class="text-darken text-xs custom-link">Back to search</a>
+    </div>
+  </div>
+
+  <div class="row mt-5">
+    <div class="col">
+      <h2>
+        <span class="gradient-text code-font">{{ userProfile.login }}</span>
+      </h2>
+    </div>
+    <div class="col d-inline-flex justify-content-end align-items-center">
+      <span class="badge rounded-pill custom-badge code-font text-gray">{{ userProfile.type }}</span>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-3">
+      <figure class="figure">
+        <img [src]="userProfile.avatar_url" class="figure-img img-fluid rounded" alt="Avatar">
+        <figcaption class="figure-caption text-end code-font text-gray">
+          <span class="text-xs text-darken"> on GitHub since {{ customFormatDate(userProfile.created_at) }}</span>
+        </figcaption>
+      </figure>
+    </div>
+
+    <div class="col-9 code-font">
+      <div class="row">
+        <div class="col-12">Bio:</div>
+        <div *ngIf="userProfile.bio; else elseBlock" class="col-12 text-darken">{{userProfile.bio}}</div>
+        <ng-template #elseBlock>
+          <div class="col-12 text-darken">This {{ userProfile.type }} has not completed their bio!</div>
+        </ng-template>
+      </div>
+
+      <div class="row mt-5">
+        <div class="col-12">Repositories:</div>
+        <div class="col-12">
+          <div *ngIf="userRepos.length > 0">
+            <ul class="repos">
+              <li *ngFor="let repository of userRepos" class="repo">
+                <a [routerLink]="['/repositories', repository.owner.login, repository.name]">{{ repository.name }}</a> <span class="text-xxs font-bold "> ({{repository.size|bytes}})</span> <span *ngIf="repository.visibility === 'public'" class="badge rounded-pill custom-badge text-darken">Public</span>
+              </li>
+            </ul>
+          </div>
+          <div *ngIf="userRepos.length === 0">
+            <p>Nie znaleziono repozytoriów</p>
           </div>
         </div>
       </div>

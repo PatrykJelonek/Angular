@@ -1,21 +1,30 @@
-<div class="container">
-  <div class="row">
-    <div class="col-md-6 offset-md-3">
-      <h2>Wyszukaj</h2>
-      <ul class="nav nav-tabs">
-        <li class="nav-item">
-          <a class="nav-link" [class.active]="searchType === 'users'" (click)="setSearchType('users')">Użytkownicy</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" [class.active]="searchType === 'repositories'" (click)="setSearchType('repositories')">Repozytoria</a>
-        </li>
-      </ul>
-      <div class="input-group mt-3">
-        <input type="text" class="form-control" [(ngModel)]="searchQuery" placeholder="Wpisz nazwę...">
+<div class="container-fluid custom-container d-inline-flex justify-content-center flex-column align-items-center">
+  <div class="row text-center">
+    <div class="col">
+      <h1 class="code-font">
+        <span class="gradient-text font-bold">GitHub</span><span class="font-bold text-small">.search{{searchType.charAt(0).toUpperCase() +  searchType.slice(1)}}(<span class="gradient-text">{{searchQuery}}</span>)</span>
+      </h1>
+    </div>
+  </div>
+
+  <div class="row d-flex justify-content-center w-100 m-2">
+    <div class="col col-md-12 col-lg-8 col-xl-5">
+      <div class="input-group mb-3">
+        <select class="form-select custom-input custom-select" aria-label="Default select example"
+                [(ngModel)]="searchType" (change)="setSearchType(searchType)">
+          <option value="user" selected>User</option>
+          <option value="repository">Repository</option>
+        </select>
+        <input type="text" class="form-control custom-input" [(ngModel)]="searchQuery" placeholder="Input name...">
         <div class="input-group-append">
-          <button class="btn btn-primary" (click)="search()">Wyszukaj</button>
+          <button class="btn btn-primary btn-added" (click)="search()">Search</button>
         </div>
       </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col text-center gradient-text code-font">
+      <p>Search user or repositories by their name...</p>
     </div>
   </div>
 </div>

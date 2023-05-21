@@ -39,10 +39,20 @@ export class RepositoryComponent {
 
         chartContainer.innerHTML = '';
 
-        const diagramDefinition = this.generateDiagramDefinition(this.branches);
+    this.githubAPIService.getUserRepositoryBranches(this.user, this.repo).subscribe(
+      async (data: any) => {
+        const diagramDefinition = this.generateDiagramDefinition(data);
         const {svg} = await mermaid.render('graphDiv', diagramDefinition);
 
         chartContainer.innerHTML = svg;
+      },
+      (error) => {
+        console.log('Wystąpił błąd podczas pobierania szczegółów repozytorium:', error);
+        this.repository = null;
+      }
+    );
+
+
 
 
   }
@@ -78,31 +88,22 @@ export class RepositoryComponent {
       const {name, commit} = branch;
       const parentCommit = commit && commit.parents && commit.parents.length > 0 ? commit.parents[0].sha : '';
 
-      // diagramDefinition += `branch ${name}\n`;
-      // diagramDefinition += 'checkout main\n'
+      if (name !== 'main') {
+        diagramDefinition += `branch ${name}\n`;
+
+      }
+
+      diagramDefinition += `commit\n`;
+
+      //diagramDefinition += `checkout ${name}\n`;
+
+      // if (name !== 'main') {
+      //   diagramDefinition = `commit id: ${commit.sha}\n`;
+      //
+      //
+      // }
     });
-    diagramDefinition = '' +
-      '      gitGraph\n' +
-      '        branch MetroLine1\n' +
-      '        commit id:"NewYork"\n' +
-      '        commit id:"Dallas"\n' +
-      '        branch MetroLine2\n' +
-      '        commit id:"LosAngeles"\n' +
-      '        commit id:"Chicago"\n' +
-      '        commit id:"Houston"\n' +
-      '        branch MetroLine3\n' +
-      '        commit id:"Phoenix"\n' +
-      '        commit type: HIGHLIGHT id:"Denver"\n' +
-      '        commit id:"Boston"\n' +
-      '        checkout MetroLine1\n' +
-      '        commit id:"Atlanta"\n' +
-      '        merge MetroLine3\n' +
-      '        commit id:"Miami"\n' +
-      '        commit id:"Washington"\n' +
-      '        merge MetroLine2 tag:"MY JUNCTION"\n' +
-      '        commit id:"Boston"\n' +
-      '        commit id:"Detroit"\n' +
-      '        commit type:REVERSE id:"SanFrancisco"'
+
     console.log(diagramDefinition);
     return diagramDefinition;
   }

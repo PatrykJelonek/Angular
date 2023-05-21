@@ -63,6 +63,7 @@
 
 <div *ngIf="selectedRepo">
   <h3>{{ selectedRepo.name }}</h3>
+  <a [routerLink]="['/repositories', selectedRepo.owner.login, selectedRepo.name]">{{ selectedRepo.owner.login}} / {{ selectedRepo.name }}</a>
   <p>{{ selectedRepo.description }}</p>
   <p>{{ selectedRepo.stargazers_count }} gwiazdek</p>
   <p>Ostatnia aktualizacja: {{ selectedRepo.updated_at }}</p>

@@ -1,0 +1,40 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <h2 class="mb-4">Szczegóły repozytorium</h2>
+      <div *ngIf="repository" class="card">
+        <div class="card-body">
+          <h2 class="card-title">{{ repository.name }}</h2>
+          <h6 class="card-subtitle mb-2 text-muted">Właściciel: {{ repository.owner.login }}</h6>
+          <p class="card-text">{{ repository.description }}</p>
+          <div class="row">
+            <div class="col-md-6">
+              <p><strong>Liczba gwiazdek:</strong> {{ repository.stargazers_count }}</p>
+              <p><strong>Język:</strong> {{ repository.language }}</p>
+              <p><strong>Data utworzenia:</strong> {{ repository.created_at | date:'medium' }}</p>
+              <p><strong>Data ostatniej aktualizacji:</strong> {{ repository.updated_at | date:'medium' }}</p>
+              <p><strong>Liczba forków:</strong> {{ repository.forks_count }}</p>
+              <p><strong>Licencja:</strong> {{ repository.license?.name || 'Brak' }}</p>
+              <!-- Dodaj inne szczegóły repozytorium -->
+            </div>
+            <div class="col-md-6">
+              <p><strong>URL:</strong> <a href="{{ repository.html_url }}" target="_blank">{{ repository.html_url }}</a></p>
+              <p><strong>Główny język:</strong> {{ repository.language }}</p>
+              <p><strong>Rozmiar:</strong> {{ repository.size | bytes }}</p>
+              <p><strong>Typ:</strong> {{ repository.private ? 'Prywatny' : 'Publiczny' }}</p>
+              <p><strong>Liczba otwartych problemów:</strong> {{ repository.open_issues_count }}</p>
+              <!-- Dodaj inne informacje o repozytorium -->
+            </div>
+          </div>
+        </div>
+        <div class="chart">
+          <div #branchesChart></div>
+        </div>
+      </div>
+      <div *ngIf="!repository" class="alert alert-danger mt-4">
+        Nie znaleziono szczegółów dla repozytorium o nazwie {{ repo }}
+      </div>
+    </div>
+  </div>
+</div>
+

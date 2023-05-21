@@ -1,0 +1,69 @@
+<input type="text" [(ngModel)]="username" placeholder="Wprowadź nazwę użytkownika">
+<button (click)="searchRepos()">Szukaj</button>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 offset-md-3">
+      <h2>Wyszukiwarka repozytoriów</h2>
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Wpisz nazwę repozytorium" [(ngModel)]="username">
+        <div class="input-group-append">
+          <button class="btn btn-primary" type="button" (click)="searchRepos()">Szukaj</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<h2>Profil użytkownika</h2>
+<div *ngIf="userProfile">
+  <p><strong>Nazwa:</strong> {{ userProfile.name }}</p>
+  <p><strong>Login:</strong> {{ userProfile.login }}</p>
+  <p><strong>Avatar:</strong></p>
+  <img [src]="userProfile.avatar_url" alt="Avatar użytkownika">
+  <p><strong>Biografia:</strong> {{ userProfile.bio }}</p>
+</div>
+
+<hr>
+
+<h2>Filtry</h2>
+<div>
+  <label for="languageFilter">Język:</label>
+  <select id="languageFilter" [(ngModel)]="languageFilter" (change)="applyFilters()">
+    <option value="">Wszystkie</option>
+    <option *ngFor="let language of uniqueLanguages" [value]="language">{{ language }}</option>
+  </select>
+</div>
+
+<div>
+  <label for="starsFilter">Liczba gwiazdek:</label>
+  <select id="starsFilter" [(ngModel)]="starsFilter" (change)="applyFilters()">
+    <option value="">Wszystkie</option>
+    <option value="100">100+</option>
+    <option value="500">500+</option>
+    <option value="1000">1000+</option>
+    <option value="5000">5000+</option>
+  </select>
+</div>
+
+<hr>
+
+<h2>Lista repozytoriów</h2>
+<ul>
+  <li *ngFor="let repo of paginatedRepos" (click)="showRepoDetails(repo)">
+    {{ repo.name }}
+  </li>
+</ul>
+
+<div class="pagination">
+  <button (click)="previousPage()" [disabled]="currentPage === 1">Poprzednia</button>
+  <button (click)="nextPage()" [disabled]="currentPage === totalPages">Następna</button>
+</div>
+
+<div *ngIf="selectedRepo">
+  <h3>{{ selectedRepo.name }}</h3>
+  <p>{{ selectedRepo.description }}</p>
+  <p>{{ selectedRepo.stargazers_count }} gwiazdek</p>
+  <p>Ostatnia aktualizacja: {{ selectedRepo.updated_at }}</p>
+</div>

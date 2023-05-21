@@ -1,0 +1,24 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 offset-md-3">
+      <h2>Wyszukaj repozytorium</h2>
+      <div class="input-group mt-3">
+        <input type="text" class="form-control" [(ngModel)]="query" placeholder="Wpisz nazwę repozytorium...">
+        <div class="input-group-append">
+          <button class="btn btn-primary" (click)="searchRepositories()">Wyszukaj</button>
+        </div>
+      </div>
+      <div *ngIf="repositories.length > 0">
+        <h3>Znalezione repozytoria:</h3>
+        <ul>
+          <li *ngFor="let repository of repositories">
+            <a [routerLink]="['/repositories', repository.owner.login, repository.name]">{{ repository.owner.login}} / {{ repository.name }}</a>
+          </li>
+        </ul>
+      </div>
+      <div *ngIf="repositories.length === 0">
+        <p>Nie znaleziono repozytoriów dla zapytania "{{ query }}"</p>
+      </div>
+    </div>
+  </div>
+</div>

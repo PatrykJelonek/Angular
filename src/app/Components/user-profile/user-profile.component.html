@@ -1,0 +1,17 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 offset-md-3">
+      <div [@fadeInOut]>
+        <h2>Profil użytkownika</h2>
+        <div class="card">
+          <img [src]="userProfile.avatar_url" class="card-img-top" alt="Avatar użytkownika">
+          <div class="card-body">
+            <h5 class="card-title">{{ userProfile.login }}</h5>
+            <p class="card-text">{{ userProfile.bio }}</p>
+            <a [href]="userProfile.html_url" target="_blank" class="btn btn-primary">Odwiedź profil</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

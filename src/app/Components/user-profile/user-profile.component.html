@@ -1,11 +1,11 @@
 <div class="container mt-3">
   <div class="row">
     <div class="col">
-      <a [routerLink]="['/']" class="text-darken text-xs custom-link">Back to search</a>
+      <a (click)="back()" class="text-darken text-xs custom-link">Go back</a>
     </div>
   </div>
 
-  <div class="row mt-5">
+  <div class="row mt-5 mb-4">
     <div class="col">
       <h2>
         <span class="gradient-text code-font">{{ userProfile.login }}</span>
@@ -14,19 +14,29 @@
     <div class="col d-inline-flex justify-content-end align-items-center">
       <span class="badge rounded-pill custom-badge code-font text-gray">{{ userProfile.type }}</span>
     </div>
+
+    <hr>
   </div>
 
   <div class="row">
-    <div class="col-3">
+    <div class="col-12 col-md-3">
       <figure class="figure">
         <img [src]="userProfile.avatar_url" class="figure-img img-fluid rounded" alt="Avatar">
         <figcaption class="figure-caption text-end code-font text-gray">
-          <span class="text-xs text-darken"> on GitHub since {{ customFormatDate(userProfile.created_at) }}</span>
+          <span class="text-xs text-darken"> on <a class="custom-link" href="{{ userProfile.html_url }}" target="_blank">GitHub</a> since {{ customFormatDate(userProfile.created_at) }}</span>
         </figcaption>
       </figure>
     </div>
 
-    <div class="col-9 code-font">
+    <div class="col-12 col-md-9 code-font">
+      <div class="row">
+        <div class="col-12">Followers: <span class="code-font text-darken">{{ userProfile.followers }}</span></div>
+      </div>
+
+      <div class="row">
+        <div class="col-12">Location: <span class="code-font text-darken">{{ userProfile.location ?? 'unknown' }}</span></div>
+      </div>
+
       <div class="row">
         <div class="col-12">Bio:</div>
         <div *ngIf="userProfile.bio; else elseBlock" class="col-12 text-darken">{{userProfile.bio}}</div>
@@ -36,7 +46,7 @@
       </div>
 
       <div class="row mt-5">
-        <div class="col-12">Repositories:</div>
+        <div class="col-12">Repositories <span class="text-xxs text-darken">(total: {{ userProfile.public_repos }})</span>:</div>
         <div class="col-12">
           <div *ngIf="userRepos.length > 0">
             <ul class="repos">
@@ -44,6 +54,12 @@
                 <a [routerLink]="['/repositories', repository.owner.login, repository.name]">{{ repository.name }}</a> <span class="text-xxs font-bold "> ({{repository.size|bytes}})</span> <span *ngIf="repository.visibility === 'public'" class="badge rounded-pill custom-badge text-darken">Public</span>
               </li>
             </ul>
+
+          <div class="row mb-5">
+            <div class="col">
+              <span *ngIf="current_page > 1" (click)="getUserRepos(current_page - 1)" class="custom-link">Prev</span> {{ current_page }} <span *ngIf="userProfile.public_repos > (per_page * current_page)" (click)="getUserRepos(current_page + 1)" class="custom-link">Next</span>
+            </div>
+          </div>
           </div>
           <div *ngIf="userRepos.length === 0">
             <p>Nie znaleziono repozytoriów</p>

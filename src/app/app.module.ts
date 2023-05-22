@@ -12,6 +12,7 @@ import { UserProfileComponent } from './Components/user-profile/user-profile.com
 import {RepositoryDetailsComponent} from "./Components/repository-details/repository-details.component";
 import { RepositoryComponent } from './Components/repository/repository.component';
 import {BytesPipe} from "./Pipes/bytes.pipe";
+import {UsersComponent} from "./Components/users/users.component";
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import {BytesPipe} from "./Pipes/bytes.pipe";
     RepositoryDetailsComponent,
     RepositoryComponent,
     BytesPipe,
+    UsersComponent,
   ],
   imports: [
     BrowserModule,

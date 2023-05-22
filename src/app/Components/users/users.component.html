@@ -1,0 +1,26 @@
+<div class="container">
+  <div class="row mt-5 mb-5">
+    <div class="col">
+      <h2 class="code-font">Users found:</h2>
+    </div>
+  </div>
+  <div class="row" *ngIf="users.length > 0">
+    <div *ngFor="let user of users" class="col-6 col-md-4 col-lg-3">
+      <a [routerLink]="['/users', user.login]">
+        <figure class="figure user" >
+          <img [src]="user.avatar_url" class="figure-img img-fluid rounded" alt="Avatar">
+          <figcaption class="figure-caption text-end code-font text-gray">
+            <span class="text-xs text-darken">{{ user.login }}</span>
+          </figcaption>
+        </figure>
+      </a>
+    </div>
+
+    <div class="col-12 mt-3">
+      <span *ngIf="current_page > 1" (click)="searchUsers(current_page - 1)" class="custom-link">Prev</span> {{ current_page }} <span *ngIf="users.length >= per_page" (click)="searchUsers(current_page + 1)" class="custom-link">Next</span>
+    </div>
+  </div>
+  <div *ngIf="users.length === 0">
+    <p>Nie znaleziono repozytoriów dla zapytania "{{ query }}"</p>
+  </div>
+</div>

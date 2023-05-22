@@ -1,0 +1,23 @@
+.users {
+  list-style-type: none;
+  padding: 0;
+}
+
+.user {
+  padding: 10px;
+  margin: 5px;
+  border-radius: 5px;
+  border: 1px solid #adbac7;
+
+  a {
+    text-decoration: none;
+    color: #adbac7;
+  }
+
+  &:hover {
+    background: -webkit-linear-gradient(120deg, #bd34fe 30%, #ff3670);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    cursor: pointer;
+  }
+}

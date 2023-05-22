@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import {Router} from "@angular/router";
-import { format, parseISO, formatDistance } from 'date-fns';
 
 @Component({
   selector: 'app-search',
@@ -19,7 +18,7 @@ export class SearchComponent {
 
   search() {
     if (this.searchQuery) {
-      const route = this.searchType === 'user' ? `/users/${this.searchQuery}` : `/repositories/${this.searchQuery}`;
+      const route = this.searchType === 'user' ? `/users?query=${this.searchQuery}` : `/repositories?query=${this.searchQuery}`;
       this.router.navigateByUrl(route);
     }
   }

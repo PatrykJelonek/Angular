@@ -3,6 +3,7 @@ import {GithubAPIService} from "../../Services/github-api.service";
 import {ActivatedRoute} from '@angular/router';
 import {trigger, state, style, animate, transition} from '@angular/animations';
 import {formatDistance, parseISO} from "date-fns";
+import {Location} from "@angular/common";
 
 @Component({
   selector: 'app-user-profile',
@@ -20,7 +21,10 @@ export class UserProfileComponent implements OnInit {
   userRepos: any;
   username: string = 'PatrykJelonek';
 
-  constructor(private githubApiService: GithubAPIService, private route: ActivatedRoute) {
+  per_page: number = 10;
+  current_page: number = 1;
+
+  constructor(private githubApiService: GithubAPIService, private route: ActivatedRoute, private location: Location) {
   }
 
   ngOnInit() {
@@ -41,11 +45,12 @@ export class UserProfileComponent implements OnInit {
       );
   }
 
-  getUserRepos() {
-    this.githubApiService.getUserRepositories(this.username)
+  public getUserRepos(current_page: number = this.current_page) {
+    this.githubApiService.getUserRepositories(this.username, this.per_page, current_page)
       .subscribe(
         repos => {
           this.userRepos = repos;
+          this.current_page = current_page;
         },
         error => {
           console.log('Wystąpił błąd podczas pobierania danych z API GitHub:', error);
@@ -58,5 +63,9 @@ export class UserProfileComponent implements OnInit {
     const baseDate = new Date();
 
     return formatDistance(parsedDate, baseDate);
+  }
+
+  public back() {
+    this.location.back();
   }
 }

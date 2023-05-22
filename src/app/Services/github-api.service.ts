@@ -11,14 +11,21 @@ export class GithubAPIService {
   constructor(private http: HttpClient) {
   }
 
-  getUserRepositories(username: string): Observable<any[]> {
+  getUserRepositories(username: string, per_page: number = 10, current_page: number = 1): Observable<any[]> {
     const url = `${this.apiUrl}/users/${username}/repos`;
-    return this.http.get<any[]>(url);
+    return this.http.get<any[]>(url, {
+      params: {
+        per_page: per_page,
+        page: current_page
+      }
+    });
   }
+
   getUserRepository(username: string, repo: string): Observable<any[]> {
     const url = `${this.apiUrl}/repos/${username}/${repo}`;
     return this.http.get<any[]>(url);
   }
+
   getUserRepositoryBranches(username: string, repo: string): Observable<any[]> {
     const url = `${this.apiUrl}/repos/${username}/${repo}/branches`;
     return this.http.get<any[]>(url);
@@ -32,6 +39,16 @@ export class GithubAPIService {
   searchRepositories(repositoryName: string) {
     const apiUrl = `${this.apiUrl}/search/repositories?q=${repositoryName}`;
     return this.http.get(apiUrl);
+  }
+
+  searchUsers(username: string, per_page: number = 10, current_page: number = 1) {
+    const apiUrl = `${this.apiUrl}/search/users?q=${username}`;
+    return this.http.get(apiUrl, {
+      params: {
+        per_page: per_page,
+        page: current_page
+      }
+    });
   }
 
   getRepositoryDetails(repositoryName: string) {

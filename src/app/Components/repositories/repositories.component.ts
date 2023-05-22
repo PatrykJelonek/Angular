@@ -26,7 +26,7 @@ export class RepositoriesComponent {
   }
 
   getUserRepositories() {
-    this.githubApiService.getUserRepositories(this.username)
+    this.githubApiService.getUserRepositories(this.username, 4, 1)
       .subscribe(
         (repositories: any[]) => {
           this.repositories = repositories;
@@ -54,7 +54,7 @@ export class RepositoriesComponent {
           }
         );
 
-      this.githubApiService.getUserRepositories(this.username)
+      this.githubApiService.getUserRepositories(this.username,4, 1)
         .subscribe(
           repos => {
             this.repositories = repos;

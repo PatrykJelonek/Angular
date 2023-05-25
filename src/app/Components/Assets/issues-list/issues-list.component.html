@@ -1,0 +1,20 @@
+<div class="row">
+  <div *ngIf="issues.length > 0" class="col-12">
+    <ul class="issues text-darken">
+      <li class="issue" *ngFor="let issue of issues">
+        <div class="row">
+          <div class="col-12">
+            - <a class="custom-link" [routerLink]="['/users', issue.user.login]"> {{ issue.user.login }}</a>
+            created <a class="custom-link" href="{{issue.html_url}}" target="_blank">"{{ issue.title }}"</a>
+            {{ issue.created_at | sinceDate }} ago.
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <div *ngIf="issues.length < 1" class="col-12 text-darken code-font text-xs">
+    No issues created!
+  </div>
+</div>
+

@@ -13,7 +13,7 @@ const routes: Routes = [
   {path: 'users', component: UsersComponent},
   {path: 'users/:username', component: UserProfileComponent},
   {path: 'repositories/:query', component: RepositoryDetailsComponent},
-  {path: 'repositories/:user/:repo', component: RepositoryComponent}
+  {path: 'users/:username/:repository', component: RepositoryComponent}
 ];
 
 @NgModule({

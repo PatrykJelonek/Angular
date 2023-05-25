@@ -1,0 +1,18 @@
+<div *ngIf="showPagination" class="row code-font">
+  <div class="col">
+    <hr>
+    <span *ngIf="showPreviewOption" (click)="clickPreviewOptionFunction()" class="custom-link">
+      Prev
+    </span>
+
+    <span *ngIf="showPreviewOption" class="text-darken text-xs mx-2"> {{ currentPage - 1 }} </span>
+
+    <span class="gradient-text"> {{ currentPage }} </span>
+
+    <span *ngIf="showNextOption" class="text-darken text-xs mx-2"> {{ currentPage + 1 }} </span>
+
+    <span *ngIf="showNextOption" (click)="clickNextOptionFunction()" class="custom-link">
+      Next
+    </span>
+  </div>
+</div>

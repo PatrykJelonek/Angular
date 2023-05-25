@@ -1,0 +1,10 @@
+<ul class="repositories">
+  <li *ngFor="let repository of repositories" class="repository">
+    <a [routerLink]="['/users', repository.owner.login, repository.name]">
+      <span *ngIf="showAuthor">{{ repository.owner.login }} / </span> {{ repository.name }}
+    </a>
+
+    <span class="text-xxs font-bold "> ({{repository.size|bytes}})</span>
+    <span *ngIf="repository.visibility === 'public'" class="badge rounded-pill custom-badge text-darken">Public</span>
+  </li>
+</ul>

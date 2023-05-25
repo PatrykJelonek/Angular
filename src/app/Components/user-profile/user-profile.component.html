@@ -7,9 +7,7 @@
 
   <div class="row mt-5 mb-4">
     <div class="col">
-      <h2>
-        <span class="gradient-text code-font">{{ userProfile.login }}</span>
-      </h2>
+      <h2 class="gradient-text code-font">{{ userProfile.login }}</h2>
     </div>
     <div class="col d-inline-flex justify-content-end align-items-center">
       <span class="badge rounded-pill custom-badge code-font text-gray">{{ userProfile.type }}</span>
@@ -51,7 +49,7 @@
           <div *ngIf="userRepos.length > 0">
             <ul class="repos">
               <li *ngFor="let repository of userRepos" class="repo">
-                <a [routerLink]="['/repositories', repository.owner.login, repository.name]">{{ repository.name }}</a> <span class="text-xxs font-bold "> ({{repository.size|bytes}})</span> <span *ngIf="repository.visibility === 'public'" class="badge rounded-pill custom-badge text-darken">Public</span>
+                <a [routerLink]="['/users', repository.owner.login, repository.name]">{{ repository.name }}</a> <span class="text-xxs font-bold "> ({{repository.size|bytes}})</span> <span *ngIf="repository.visibility === 'public'" class="badge rounded-pill custom-badge text-darken">Public</span>
               </li>
             </ul>
 

@@ -11,8 +11,8 @@ export class UsersComponent {
   query: string = '';
   users: any[] = [];
 
-  per_page: number = 12;
-  current_page: number = 1;
+  perPage: number = 12;
+  currentPage: number = 1;
 
   constructor(private route: ActivatedRoute, private githubAPIService: GithubAPIService) {
   }
@@ -24,18 +24,18 @@ export class UsersComponent {
     });
   }
 
-  public searchUsers(current_page: number = this.current_page) {
+  public searchUsers(current_page: number = this.currentPage) {
     if (this.query) {
-      this.githubAPIService.searchUsers(this.query, this.per_page, current_page).subscribe(
+      this.githubAPIService.searchUsers(this.query, this.perPage, current_page).subscribe(
         (data: any) => {
           this.users = data.items;
-          this.current_page = current_page;
+          this.currentPage = current_page;
 
         },
         (error) => {
           console.log('Wystąpił błąd podczas wyszukiwania repozytoriów:', error);
           this.users = [];
-          this.current_page = 1;
+          this.currentPage = 1;
         }
       );
     } else {

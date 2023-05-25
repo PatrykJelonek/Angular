@@ -1,9 +1,12 @@
 <div class="container">
   <div class="row mt-5 mb-5">
     <div class="col">
-      <h2 class="code-font">Users found:</h2>
+      <h2 class="code-font gradient-text">Users:</h2>
+      <span class="text-darken text-xs code-font">Below is a list of found users matching your query.</span>
+      <hr>
     </div>
   </div>
+
   <div class="row" *ngIf="users.length > 0">
     <div *ngFor="let user of users" class="col-6 col-md-4 col-lg-3">
       <a [routerLink]="['/users', user.login]">
@@ -15,12 +18,18 @@
         </figure>
       </a>
     </div>
-
-    <div class="col-12 mt-3">
-      <span *ngIf="current_page > 1" (click)="searchUsers(current_page - 1)" class="custom-link">Prev</span> {{ current_page }} <span *ngIf="users.length >= per_page" (click)="searchUsers(current_page + 1)" class="custom-link">Next</span>
-    </div>
   </div>
+
   <div *ngIf="users.length === 0">
     <p>Nie znaleziono repozytoriów dla zapytania "{{ query }}"</p>
   </div>
+
+  <app-pagination
+    [showPagination]="(users.length > 0)"
+    [showPreviewOption]="currentPage > 1"
+    [showNextOption]="users.length >= perPage"
+    [currentPage]="currentPage"
+    ($onClickPreviewOptionFunction)="searchUsers(currentPage - 1)"
+    ($onClickNextOptionFunction)="searchUsers(currentPage + 1)"
+  ></app-pagination>
 </div>

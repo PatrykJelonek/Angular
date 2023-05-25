@@ -1,0 +1,7 @@
+<ul class="contributors">
+  <li *ngFor="let contributor of contributors" class="contributor">
+    <a [routerLink]="['/users', contributor.login]">
+      <img [src]="contributor.avatar_url" class="contributor__avatar">
+    </a>
+  </li>
+</ul>

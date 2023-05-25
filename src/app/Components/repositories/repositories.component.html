@@ -1,70 +1,30 @@
-<input type="text" [(ngModel)]="username" placeholder="Wprowadź nazwę użytkownika">
-<button (click)="searchRepos()">Szukaj</button>
-
 <div class="container">
+  <div class="row mt-5 mb-3">
+    <div class="col-12">
+      <h2 class="gradient-text code-font">Repositories:</h2>
+      <span class="text-darken text-xs code-font">Below is a list of found repositories matching your query.</span>
+      <hr>
+    </div>
+  </div>
+
   <div class="row">
-    <div class="col-md-6 offset-md-3">
-      <h2>Wyszukiwarka repozytoriów</h2>
-      <div class="input-group mb-3">
-        <input type="text" class="form-control" placeholder="Wpisz nazwę repozytorium" [(ngModel)]="username">
-        <div class="input-group-append">
-          <button class="btn btn-primary" type="button" (click)="searchRepos()">Szukaj</button>
-        </div>
+    <div class="offset-md-12">
+      <div *ngIf="repositories.length > 0">
+        <app-repositories-list [repositories]="repositories" [showAuthor]="true"></app-repositories-list>
+      </div>
+      <div *ngIf="repositories.length === 0">
+        <p>No repositories found for query "{{ query }}"</p>
       </div>
     </div>
   </div>
-</div>
 
 
-<h2>Profil użytkownika</h2>
-<div *ngIf="userProfile">
-  <p><strong>Nazwa:</strong> {{ userProfile.name }}</p>
-  <p><strong>Login:</strong> {{ userProfile.login }}</p>
-  <p><strong>Avatar:</strong></p>
-  <img [src]="userProfile.avatar_url" alt="Avatar użytkownika">
-  <p><strong>Biografia:</strong> {{ userProfile.bio }}</p>
-</div>
-
-<hr>
-
-<h2>Filtry</h2>
-<div>
-  <label for="languageFilter">Język:</label>
-  <select id="languageFilter" [(ngModel)]="languageFilter" (change)="applyFilters()">
-    <option value="">Wszystkie</option>
-    <option *ngFor="let language of uniqueLanguages" [value]="language">{{ language }}</option>
-  </select>
-</div>
-
-<div>
-  <label for="starsFilter">Liczba gwiazdek:</label>
-  <select id="starsFilter" [(ngModel)]="starsFilter" (change)="applyFilters()">
-    <option value="">Wszystkie</option>
-    <option value="100">100+</option>
-    <option value="500">500+</option>
-    <option value="1000">1000+</option>
-    <option value="5000">5000+</option>
-  </select>
-</div>
-
-<hr>
-
-<h2>Lista repozytoriów</h2>
-<ul>
-  <li *ngFor="let repo of paginatedRepos" (click)="showRepoDetails(repo)">
-    {{ repo.name }}
-  </li>
-</ul>
-
-<div class="pagination">
-  <button (click)="previousPage()" [disabled]="currentPage === 1">Poprzednia</button>
-  <button (click)="nextPage()" [disabled]="currentPage === totalPages">Następna</button>
-</div>
-
-<div *ngIf="selectedRepo">
-  <h3>{{ selectedRepo.name }}</h3>
-  <a [routerLink]="['/repositories', selectedRepo.owner.login, selectedRepo.name]">{{ selectedRepo.owner.login}} / {{ selectedRepo.name }}</a>
-  <p>{{ selectedRepo.description }}</p>
-  <p>{{ selectedRepo.stargazers_count }} gwiazdek</p>
-  <p>Ostatnia aktualizacja: {{ selectedRepo.updated_at }}</p>
+  <app-pagination
+    [showPagination]="(repositories.length > 0)"
+    [showPreviewOption]="currentPage > 1"
+    [showNextOption]="repositories.length >= perPage"
+    [currentPage]="currentPage"
+    ($onClickPreviewOptionFunction)="searchRepositories(currentPage - 1)"
+    ($onClickNextOptionFunction)="searchRepositories(currentPage + 1)"
+  ></app-pagination>
 </div>

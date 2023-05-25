@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { GithubAPIService } from "../../Services/github-api.service";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-repositories',
@@ -7,127 +8,35 @@ import { GithubAPIService } from "../../Services/github-api.service";
   styleUrls: ['./repositories.component.scss']
 })
 export class RepositoriesComponent {
+  query: string = '';
   repositories: any[] = [];
-  selectedRepo: any;
-  username: string = 'PatrykJelonek';
-  paginatedRepos: any[] = [];
-  currentPage: number = 1;
-  itemsPerPage: number = 5;
-  totalPages: number = 0;
-  userProfile: any;
-  languageFilter: string = '';
-  starsFilter: string = '';
 
-  constructor(private githubApiService: GithubAPIService) { }
+  perPage: number = 10;
+  currentPage: number = 1;
+
+  constructor(private route: ActivatedRoute, private githubAPIService: GithubAPIService) { }
 
   ngOnInit() {
-    this.getUserRepositories();
-    this.getUserProfile();
-  }
-
-  getUserRepositories() {
-    this.githubApiService.getUserRepositories(this.username, 4, 1)
-      .subscribe(
-        (repositories: any[]) => {
-          this.repositories = repositories;
-          this.updatePagination();
-        },
-        (error: any) => {
-          console.log('Wystąpił błąd podczas pobierania danych z API GitHub:', error);
-        }
-      );
-  }
-
-  showRepoDetails(repo: any) {
-    this.selectedRepo = repo;
-  }
-
-  searchRepos() {
-    if (this.username) {
-      this.githubApiService.getUserProfile(this.username)
-        .subscribe(
-          profile => {
-            this.userProfile = profile;
-          },
-          error => {
-            console.log('Wystąpił błąd podczas pobierania danych z API GitHub:', error);
-          }
-        );
-
-      this.githubApiService.getUserRepositories(this.username,4, 1)
-        .subscribe(
-          repos => {
-            this.repositories = repos;
-            this.updatePagination();
-          },
-          error => {
-            console.log('Wystąpił błąd podczas pobierania danych z API GitHub:', error);
-          }
-        );
-    }
-
-
-  }
-
-  updatePagination() {
-    console.log("update");
-    this.totalPages = Math.ceil(this.repositories.length / this.itemsPerPage);
-    this.paginatedRepos = this.repositories.slice((this.currentPage - 1) * this.itemsPerPage, this.currentPage * this.itemsPerPage);
-  }
-
-  previousPage() {
-    if (this.currentPage > 1) {
-      this.currentPage--;
-      this.updatePagination();
-    }
-  }
-
-  nextPage() {
-    if (this.currentPage < this.totalPages) {
-      this.currentPage++;
-      this.updatePagination();
-    }
-  }
-
-  getUserProfile() {
-    this.githubApiService.getUserProfile(this.username)
-      .subscribe(
-        profile => {
-          this.userProfile = profile;
-        },
-        error => {
-          console.log('Wystąpił błąd podczas pobierania danych z API GitHub:', error);
-        }
-      );
-  }
-
-  applyFilters() {
-    this.filterRepos();
-    this.updatePagination();
-  }
-
-  filterRepos() {
-    this.paginatedRepos = this.repositories.filter(repo => {
-      let passLanguageFilter = true;
-      let passStarsFilter = true;
-
-      if (this.languageFilter !== '') {
-        passLanguageFilter = repo.language === this.languageFilter;
-        console.log(repo);
-      }
-
-      if (this.starsFilter !== '') {
-        const stars = parseInt(this.starsFilter);
-        passStarsFilter = repo.stargazers_count >= stars;
-      }
-
-      return passLanguageFilter && passStarsFilter;
+    this.route.queryParams.subscribe(params => {
+      this.query = params['query'];
+      this.searchRepositories();
     });
-
-    console.table(this.paginatedRepos);
   }
 
-  get uniqueLanguages(): string[] {
-    return Array.from(new Set(this.repositories.map(repo => repo.language)));
+  public searchRepositories(currentPage: number = this.currentPage) {
+    if (this.query) {
+      this.githubAPIService.searchRepositories(this.query, this.perPage, currentPage).subscribe(
+        (data: any) => {
+          this.repositories = data.items;
+          this.currentPage = currentPage;
+        },
+        (error) => {
+          console.log('Wystąpił błąd podczas wyszukiwania repozytoriów:', error);
+          this.repositories = [];
+        }
+      );
+    } else {
+      this.repositories = [];
+    }
   }
 }

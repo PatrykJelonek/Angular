@@ -1,13 +1,16 @@
-.statistics {
+.branches {
+  list-style-type: none;
+  padding: 0;
+
+  margin-top: 5px;
+
   display: flex;
   justify-content: flex-start;
   gap: 5px;
   flex-wrap: wrap;
-
-  margin-top: 2px;
 }
 
-.statistic {
+.branch {
   padding: 5px 10px;
   border: 1px solid #343a43;
   border-radius: 5px;

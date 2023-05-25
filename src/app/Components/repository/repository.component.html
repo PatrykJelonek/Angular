@@ -1,37 +1,92 @@
 <div class="container">
-  <div class="row">
-    <div class="col-md-8 offset-md-2">
-      <h2 class="mb-4">Szczegóły repozytorium</h2>
-      <div *ngIf="repository" class="card">
-        <div class="card-body">
-          <h2 class="card-title">{{ repository.name }}</h2>
-          <h6 class="card-subtitle mb-2 text-muted">Właściciel: {{ repository.owner.login }}</h6>
-          <p class="card-text">{{ repository.description }}</p>
-          <div class="row">
-            <div class="col-md-6">
-              <p><strong>Liczba gwiazdek:</strong> {{ repository.stargazers_count }}</p>
-              <p><strong>Język:</strong> {{ repository.language }}</p>
-              <p><strong>Data utworzenia:</strong> {{ repository.created_at | date:'medium' }}</p>
-              <p><strong>Data ostatniej aktualizacji:</strong> {{ repository.updated_at | date:'medium' }}</p>
-              <p><strong>Liczba forków:</strong> {{ repository.forks_count }}</p>
-              <p><strong>Licencja:</strong> {{ repository.license?.name || 'Brak' }}</p>
-              <!-- Dodaj inne szczegóły repozytorium -->
-            </div>
-            <div class="col-md-6">
-              <p><strong>URL:</strong> <a href="{{ repository.html_url }}" target="_blank">{{ repository.html_url }}</a></p>
-              <p><strong>Główny język:</strong> {{ repository.language }}</p>
-              <p><strong>Rozmiar:</strong> {{ repository.size | bytes }}</p>
-              <p><strong>Typ:</strong> {{ repository.private ? 'Prywatny' : 'Publiczny' }}</p>
-              <p><strong>Liczba otwartych problemów:</strong> {{ repository.open_issues_count }}</p>
-              <!-- Dodaj inne informacje o repozytorium -->
-            </div>
-          </div>
-        </div>
+  <div *ngIf="repository" class="row mt-5">
+    <div class="col">
+      <h2 class="code-font">
+        <span class="gradient-text">{{ repository.name }}</span>
+        <span class="text-darken text-xxs mx-2">({{ repository.size | bytes }})</span>
+      </h2>
+      <div class="d-flex justify-content-between text-darken code-font flex-wrap text-xs">
+        <span>Repository created by <a [routerLink]="['/users', repository.owner.login]" class="custom-link">{{ repository.owner.login }}</a> {{ repository.created_at | sinceDate }} ago.</span>
+        <span *ngIf="repository.updated_at">Last update {{ repository.updated_at | sinceDate }} ago.</span>
       </div>
-      <div *ngIf="!repository" class="alert alert-danger mt-4">
-        Nie znaleziono szczegółów dla repozytorium o nazwie {{ repo }}
-      </div>
+      <hr>
     </div>
   </div>
+
+  <ng-container *ngIf="repository">
+    <div class="row code-font">
+      <div class="col-12">
+        Description:
+      </div>
+      <div class="col-12 text-darken">
+        <ng-container *ngIf="repository.description; else emptyDescription">
+          {{ repository.description }}
+        </ng-container>
+        <ng-template #emptyDescription>
+          Repository {{ repository.name }} has not completed description!
+        </ng-template>
+      </div>
+    </div>
+
+    <div *ngIf="repository.license" class="row code-font mt-1">
+      <div class="col-12">License:</div>
+      <div class="col-12">
+        <a href="{{repository.license.url }}" class="custom-link">{{ repository.license.name }}</a>
+      </div>
+    </div>
+
+    <div class="row code-font mt-1">
+      <div class="col-12">Main technology:</div>
+      <div class="col-12">
+        <span *ngIf="repository.language" class="text-darken">{{ repository.language }}</span>
+      </div>
+    </div>
+
+    <div class="row code-font mt-1">
+      <div class="col-12">Statistics:</div>
+      <div class="col-12 text-darken statistics">
+        <span class="statistic text-xs">Watchers: {{ repository.watchers_count ?? 0 }}</span>
+        <span class="statistic text-xs">Stars: {{ repository.stargazers_count ?? 0 }}</span>
+        <span class="statistic text-xs">Subscribers: {{ repository.subscribers_count ?? 0 }}</span>
+        <span class="statistic text-xs">Forks: {{ repository.forks_count ?? 0 }}</span>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="branches">
+    <div class="row code-font mt-3">
+      <div class="col-12">
+        Active Branches:
+      </div>
+      <div class="col-12">
+        <app-branches-list [branches]="branches" [defaultBranch]="repository.default_branch"></app-branches-list>
+      </div>
+      <div class="col-12 text-xxs text-darken">
+        The symbol <span class="gradient-text">*</span> means default repository branch.
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="contributors">
+    <div class="row code-font mt-3">
+      <div class="col-12">
+        Contributors:
+      </div>
+      <div class="col-12">
+        <app-contributors-list [contributors]="contributors"></app-contributors-list>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="issues">
+    <div class="row code-font mt-2">
+      <div class="col-12">
+        Issues:
+      </div>
+      <div class="col-12">
+       <app-issues-list [issues]="issues"></app-issues-list>
+      </div>
+    </div>
+  </ng-container>
 </div>
 

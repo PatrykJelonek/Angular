@@ -6,17 +6,19 @@ import {Observable} from "rxjs";
   providedIn: 'root'
 })
 export class GithubAPIService {
-  private apiUrl = 'https://api.github.com';
+  private apiUrl: string = 'https://api.github.com';
+  private defaultPerPage: number = 10;
+  private defaultCurrentPage: number = 1;
 
   constructor(private http: HttpClient) {
   }
 
-  getUserRepositories(username: string, per_page: number = 10, current_page: number = 1): Observable<any[]> {
+  getUserRepositories(username: string, perPage: number = this.defaultPerPage, currentPage: number = this.defaultCurrentPage): Observable<any[]> {
     const url = `${this.apiUrl}/users/${username}/repos`;
     return this.http.get<any[]>(url, {
       params: {
-        per_page: per_page,
-        page: current_page
+        per_page: perPage,
+        page: currentPage
       }
     });
   }
@@ -31,22 +33,37 @@ export class GithubAPIService {
     return this.http.get<any[]>(url);
   }
 
+  getUserRepositoryContributors(username: string, repo: string): Observable<any[]> {
+    const url = `${this.apiUrl}/repos/${username}/${repo}/contributors`;
+    return this.http.get<any[]>(url);
+  }
+
+  getUserRepositoryIssues(username: string, repo: string): Observable<any[]> {
+    const url = `${this.apiUrl}/repos/${username}/${repo}/issues`;
+    return this.http.get<any[]>(url);
+  }
+
   getUserProfile(username: string): Observable<any> {
     const url = `${this.apiUrl}/users/${username}`;
     return this.http.get<any>(url);
   }
 
-  searchRepositories(repositoryName: string) {
+  searchRepositories(repositoryName: string, perPage: number = this.defaultPerPage, currentPage: number = this.defaultCurrentPage) {
     const apiUrl = `${this.apiUrl}/search/repositories?q=${repositoryName}`;
-    return this.http.get(apiUrl);
+    return this.http.get(apiUrl, {
+      params: {
+        per_page: perPage,
+        page: currentPage
+      }
+    });
   }
 
-  searchUsers(username: string, per_page: number = 10, current_page: number = 1) {
+  searchUsers(username: string, perPage: number = this.defaultPerPage, currentPage: number = this.defaultCurrentPage) {
     const apiUrl = `${this.apiUrl}/search/users?q=${username}`;
     return this.http.get(apiUrl, {
       params: {
-        per_page: per_page,
-        page: current_page
+        per_page: perPage,
+        page: currentPage
       }
     });
   }

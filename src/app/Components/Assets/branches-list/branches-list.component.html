@@ -1,0 +1,5 @@
+<ul class="branches">
+  <li *ngFor="let branch of branches" class="branch text-xs" [ngClass]="{'text-darken' : branch.name !== defaultBranch}">
+   <span *ngIf="branch.name === defaultBranch" class="gradient-text">*</span> {{ branch.name }}
+  </li>
+</ul>

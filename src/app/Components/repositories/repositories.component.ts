@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { GithubAPIService } from "../../Services/github-api.service";
 import {ActivatedRoute} from "@angular/router";
+import {Location} from "@angular/common";
 
 @Component({
   selector: 'app-repositories',
@@ -14,7 +15,7 @@ export class RepositoriesComponent {
   perPage: number = 10;
   currentPage: number = 1;
 
-  constructor(private route: ActivatedRoute, private githubAPIService: GithubAPIService) { }
+  constructor(private route: ActivatedRoute, private githubAPIService: GithubAPIService,  private location: Location) { }
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
@@ -38,5 +39,9 @@ export class RepositoriesComponent {
     } else {
       this.repositories = [];
     }
+  }
+
+  public back() {
+    this.location.back();
   }
 }

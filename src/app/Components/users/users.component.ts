@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {GithubAPIService} from "../../Services/github-api.service";
+import {Location} from "@angular/common";
 
 @Component({
   selector: 'app-users',
@@ -14,7 +15,7 @@ export class UsersComponent {
   perPage: number = 12;
   currentPage: number = 1;
 
-  constructor(private route: ActivatedRoute, private githubAPIService: GithubAPIService) {
+  constructor(private route: ActivatedRoute, private githubAPIService: GithubAPIService, private location: Location) {
   }
 
   ngOnInit() {
@@ -41,5 +42,9 @@ export class UsersComponent {
     } else {
       this.users = [];
     }
+  }
+
+  public back() {
+    this.location.back();
   }
 }

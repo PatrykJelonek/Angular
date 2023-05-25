@@ -21,6 +21,8 @@ import { BranchesListComponent } from './Components/Assets/branches-list/branche
 import { ContributorsListComponent } from './Components/Assets/contributors-list/contributors-list.component';
 import { IssuesListComponent } from './Components/Assets/issues-list/issues-list.component';
 import { CommitsListComponent } from './Components/Assets/commits-list/commits-list.component';
+import { NotFoundComponent } from './Components/Assets/not-found/not-found.component';
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 @NgModule({
   declarations: [
@@ -39,14 +41,15 @@ import { CommitsListComponent } from './Components/Assets/commits-list/commits-l
     BranchesListComponent,
     ContributorsListComponent,
     IssuesListComponent,
-    CommitsListComponent
+    CommitsListComponent,
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-
+    BrowserAnimationsModule
   ],
   providers: [GithubAPIService],
   bootstrap: [AppComponent]

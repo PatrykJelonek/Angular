@@ -1,4 +1,10 @@
-<div class="container">
+<div class="container mt-3">
+  <div class="row">
+    <div class="col">
+      <a (click)="back()" class="text-darken text-xs custom-link">Go back</a>
+    </div>
+  </div>
+
   <div class="row mt-5 mb-5">
     <div class="col">
       <h2 class="code-font gradient-text">Users:</h2>
@@ -11,7 +17,7 @@
     <div *ngFor="let user of users" class="col-6 col-md-4 col-lg-3">
       <a [routerLink]="['/users', user.login]">
         <figure class="figure user" >
-          <img [src]="user.avatar_url" class="figure-img img-fluid rounded" alt="Avatar">
+          <img [src]="user.avatar_url" class="figure-img img-fluid rounded avatar" alt="Avatar">
           <figcaption class="figure-caption text-end code-font text-gray">
             <span class="text-xs text-darken">{{ user.login }}</span>
           </figcaption>

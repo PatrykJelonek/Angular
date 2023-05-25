@@ -1,5 +1,13 @@
-<div class="container">
-  <div *ngIf="repository" class="row mt-5">
+<div class="container mt-3">
+  <div class="row">
+    <div class="col">
+      <a (click)="back()" class="text-darken text-xs custom-link">Go back</a>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5" *ngIf="repository">
+  <div class="row">
     <div class="col">
       <h2 class="code-font">
         <span class="gradient-text">{{ repository.name }}</span>
@@ -38,7 +46,7 @@
     <div class="row code-font mt-1">
       <div class="col-12">Main technology:</div>
       <div class="col-12">
-        <span *ngIf="repository.language" class="text-darken">{{ repository.language }}</span>
+        <span class="text-darken">{{ repository.language ?? '---' }}</span>
       </div>
     </div>
 
@@ -67,7 +75,12 @@
     </div>
   </ng-container>
 
-  <ng-container *ngIf="contributors">
+  <div class="row code-font mt-3">
+    <div class="col-12">
+      Contributors:
+    </div>
+  </div>
+  <ng-container *ngIf="contributors.length > 0">
     <div class="row code-font mt-3">
       <div class="col-12">
         Contributors:
@@ -77,27 +90,64 @@
       </div>
     </div>
   </ng-container>
-
-  <ng-container *ngIf="issues">
-    <div class="row code-font mt-2">
-      <div class="col-12">
-        Issues:
+  <ng-container *ngIf="contributors.length < 1">
+    <div class="row mt-2">
+      <div class="col-12 text-darken code-font text-xs">
+        This repository does have no contributors yet.
       </div>
+    </div>
+  </ng-container>
+
+  <div class="row code-font mt-2">
+    <div class="col-12">
+      Issues:
+    </div>
+  </div>
+  <ng-container *ngIf="issues.length > 0">
+    <div class="row code-font mt-2">
       <div class="col-12">
        <app-issues-list [issues]="issues"></app-issues-list>
       </div>
     </div>
   </ng-container>
+  <ng-container *ngIf="issues.length < 1">
+    <div class="row mt-2">
+      <div class="col-12 text-darken code-font text-xs">
+        This repository does have no issues yet.
+      </div>
+    </div>
+  </ng-container>
 
-  <ng-container *ngIf="commits">
+  <div class="row code-font mt-2">
+    <div class="col-12">
+      Latest commits:
+    </div>
+  </div>
+  <ng-container *ngIf="commits.length > 0">
     <div class="row code-font mt-2">
       <div class="col-12">
-        Latest commits:
+       <app-commits-list [commits]="commits"></app-commits-list>
       </div>
       <div class="col-12">
-       <app-commits-list [commits]="commits"></app-commits-list>
+        <app-pagination
+          [showPagination]="(commits.length > 0)"
+          [showPreviewOption]="commitsCurrentPage > 1"
+          [showNextOption]="commits.length >= commitsPerPage"
+          [currentPage]="commitsCurrentPage"
+          ($onClickPreviewOptionFunction)="getCommits(commitsCurrentPage - 1)"
+          ($onClickNextOptionFunction)="getCommits(commitsCurrentPage + 1)"
+        ></app-pagination>
+      </div>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="commits.length < 1">
+    <div class="row mt-2">
+      <div class="col-12 text-darken code-font text-xs">
+        This repository does have no commits yet.
       </div>
     </div>
   </ng-container>
 </div>
-
+<div *ngIf="!repository">
+  <app-not-found></app-not-found>
+</div>

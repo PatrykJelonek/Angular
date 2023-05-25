@@ -1,7 +1,7 @@
 import {ActivatedRoute} from "@angular/router";
 import {GithubAPIService} from "../../Services/github-api.service";
 import {Component} from '@angular/core';
-import {formatDistance, parseISO} from "date-fns";
+import {Location} from "@angular/common";
 
 @Component({
   selector: 'app-repository',
@@ -17,8 +17,10 @@ export class RepositoryComponent {
   contributors: any[] = [];
   issues: any[] = [];
   commits: any[] = [];
+  commitsCurrentPage: number = 1;
+  commitsPerPage: number = 5;
 
-  constructor(private route: ActivatedRoute, private githubAPIService: GithubAPIService) {
+  constructor(private route: ActivatedRoute, private githubAPIService: GithubAPIService, private location: Location) {
   }
 
   ngOnInit() {
@@ -84,15 +86,20 @@ export class RepositoryComponent {
     );
   }
 
-  getCommits() {
-    this.githubAPIService.getUserRepositoryCommits(this.currentUsername, this.currentRepository, 5).subscribe(
+  public getCommits(currentPage: number = this.commitsCurrentPage) {
+    this.githubAPIService.getUserRepositoryCommits(this.currentUsername, this.currentRepository, 5, currentPage).subscribe(
       (data: any) => {
         this.commits = data;
+        this.commitsCurrentPage = currentPage;
       },
       (error) => {
         console.log('Wystąpił błąd podczas pobierania szczegółów repozytorium:', error);
         this.commits = [];
       }
     );
+  }
+
+  public back() {
+    this.location.back();
   }
 }

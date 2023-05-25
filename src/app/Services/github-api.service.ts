@@ -43,11 +43,12 @@ export class GithubAPIService {
     return this.http.get<any[]>(url);
   }
 
-  getUserRepositoryCommits(username: string, repo: string, perPage: number = 10): Observable<any[]> {
+  getUserRepositoryCommits(username: string, repo: string, perPage: number = 10, currentPage: number = 1): Observable<any[]> {
     const url = `${this.apiUrl}/repos/${username}/${repo}/commits`;
     return this.http.get<any[]>(url, {
       params: {
-        per_page: perPage
+        per_page: perPage,
+        page: currentPage
       }
     });
   }

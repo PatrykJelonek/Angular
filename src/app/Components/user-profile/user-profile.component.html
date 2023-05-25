@@ -43,26 +43,26 @@
         </ng-template>
       </div>
 
-      <div class="row mt-5">
+      <div class="row  mt-5">
         <div class="col-12">Repositories <span class="text-xxs text-darken">(total: {{ userProfile.public_repos }})</span>:</div>
+      </div>
+      <div class="row" *ngIf="userRepos.length > 0">
         <div class="col-12">
-          <div *ngIf="userRepos.length > 0">
-            <ul class="repos">
-              <li *ngFor="let repository of userRepos" class="repo">
-                <a [routerLink]="['/users', repository.owner.login, repository.name]">{{ repository.name }}</a> <span class="text-xxs font-bold "> ({{repository.size|bytes}})</span> <span *ngIf="repository.visibility === 'public'" class="badge rounded-pill custom-badge text-darken">Public</span>
-              </li>
-            </ul>
-
-          <div class="row mb-5">
-            <div class="col">
-              <span *ngIf="current_page > 1" (click)="getUserRepos(current_page - 1)" class="custom-link">Prev</span> {{ current_page }} <span *ngIf="userProfile.public_repos > (per_page * current_page)" (click)="getUserRepos(current_page + 1)" class="custom-link">Next</span>
-            </div>
-          </div>
-          </div>
-          <div *ngIf="userRepos.length === 0">
-            <p>Nie znaleziono repozytoriów</p>
-          </div>
+          <app-repositories-list [repositories]="userRepos"></app-repositories-list>
         </div>
+        <div class="col-12">
+          <app-pagination
+            [showPagination]="(userRepos.length > 0)"
+            [showPreviewOption]="currentPage > 1"
+            [showNextOption]="userRepos.length >= perPage"
+            [currentPage]="currentPage"
+            ($onClickPreviewOptionFunction)="getUserRepos(currentPage - 1)"
+            ($onClickNextOptionFunction)="getUserRepos(currentPage + 1)"
+          ></app-pagination>
+        </div>
+      </div>
+      <div *ngIf="userRepos.length < 1" class="row mt-5">
+        {{userProfile.login}} does not have repositories.
       </div>
     </div>
   </div>

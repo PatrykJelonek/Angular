@@ -88,5 +88,16 @@
       </div>
     </div>
   </ng-container>
+
+  <ng-container *ngIf="commits">
+    <div class="row code-font mt-2">
+      <div class="col-12">
+        Latest commits:
+      </div>
+      <div class="col-12">
+       <app-commits-list [commits]="commits"></app-commits-list>
+      </div>
+    </div>
+  </ng-container>
 </div>
 

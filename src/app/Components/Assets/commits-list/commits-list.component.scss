@@ -1,0 +1,23 @@
+.commits {
+  list-style-type: none;
+  padding: 0;
+}
+
+.commit {
+  cursor: pointer;
+}
+
+.commit .commit__message {
+  display: block;
+  opacity: 1;
+  height: 0;
+  overflow: hidden;
+  transition: all .3s ease-in-out;
+}
+
+.commit:hover .commit__message {
+  display: block;
+  opacity: 1;
+  height: fit-content;
+  margin-left: 18px;
+}

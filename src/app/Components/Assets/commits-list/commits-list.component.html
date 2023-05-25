@@ -1,0 +1,10 @@
+<div class="row">
+  <div class="col-12">
+    <ul class="commits code-font text-xs text-darken">
+      <li *ngFor="let commit of commits" class="commit">
+        - Commit <a class="custom-link" href="{{commit.html_url}}" target="_blank">{{ commit.sha }}</a> pushed by {{ commit.commit.author.name }} {{ commit.commit.author.date | sinceDate }} ago.
+        <div class="commit__message">{{ commit.commit.message}}</div>
+      </li>
+    </ul>
+  </div>
+</div>

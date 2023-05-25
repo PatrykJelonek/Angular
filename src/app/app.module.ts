@@ -20,6 +20,7 @@ import {FormattedDatePipe} from "./Pipes/formatedDate.pipes";
 import { BranchesListComponent } from './Components/Assets/branches-list/branches-list.component';
 import { ContributorsListComponent } from './Components/Assets/contributors-list/contributors-list.component';
 import { IssuesListComponent } from './Components/Assets/issues-list/issues-list.component';
+import { CommitsListComponent } from './Components/Assets/commits-list/commits-list.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { IssuesListComponent } from './Components/Assets/issues-list/issues-list
     FormattedDatePipe,
     BranchesListComponent,
     ContributorsListComponent,
-    IssuesListComponent
+    IssuesListComponent,
+    CommitsListComponent
   ],
   imports: [
     BrowserModule,

@@ -16,6 +16,7 @@ export class RepositoryComponent {
   branches: any = [];
   contributors: any[] = [];
   issues: any[] = [];
+  commits: any[] = [];
 
   constructor(private route: ActivatedRoute, private githubAPIService: GithubAPIService) {
   }
@@ -32,6 +33,7 @@ export class RepositoryComponent {
     this.getBranches();
     this.getContributors();
     this.getIssues();
+    this.getCommits();
   }
 
   getRepositoryDetails() {
@@ -78,6 +80,18 @@ export class RepositoryComponent {
       (error) => {
         console.log('Wystąpił błąd podczas pobierania szczegółów repozytorium:', error);
         this.issues = [];
+      }
+    );
+  }
+
+  getCommits() {
+    this.githubAPIService.getUserRepositoryCommits(this.currentUsername, this.currentRepository, 5).subscribe(
+      (data: any) => {
+        this.commits = data;
+      },
+      (error) => {
+        console.log('Wystąpił błąd podczas pobierania szczegółów repozytorium:', error);
+        this.commits = [];
       }
     );
   }
